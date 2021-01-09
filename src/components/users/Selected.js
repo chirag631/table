@@ -19,15 +19,10 @@ return(
       
     
         row.id.toString().toLowerCase().indexOf(v[0])>-1||
-        
         row.id.toString().toLowerCase().indexOf(v[1])>-1||
-        
         row.id.toString().toLowerCase().indexOf(v[2])>-1||
-        
-        row.id.toString().toLowerCase().indexOf(v[3])>-1||
-        
+        row.id.toString().toLowerCase().indexOf(v[3])>-1||        
         row.id.toString().toLowerCase().indexOf(v[4])>-1||
-        
         row.id.toString().toLowerCase().indexOf(v[5])>-1
       
     );
@@ -51,12 +46,12 @@ return(
       <Link className="btn btn-primary" to="/">
         back to Home
       </Link>
-      <h1 className="display-4">User id : {id}</h1>
+      <h1 className="display-4">Selected ID'S</h1>
       <hr />
       <table class="table border shadow">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">#</th>
+              <th scope="col">id</th>
               <th scope="col">Name</th>
               <th scope="col">User Name</th>
               <th scope="col">Email</th>
