@@ -15,7 +15,7 @@ import NotFound from "./components/pages/NotFound";
 import AddUser from "./components/users/AddUser";
 import EditUser from "./components/users/EditUser";
 import User from "./components/users/User";
-
+import Selected from "./components/users/Selected";
 function App(props) {
   return (
     <Router>
@@ -29,6 +29,7 @@ function App(props) {
           <Route exact path="/users/add" component={AddUser} />
           <Route exact path="/users/edit/:id" component={EditUser} />
           <Route exact path="/users/:id" component={User} />
+          <Route exact path="/user/selected/" component={Selected} />
           <Route component={NotFound} />
         </Switch>
       </div>

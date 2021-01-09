@@ -31,6 +31,7 @@ import About from './About';
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+import { connect } from "react-redux";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -100,7 +101,7 @@ function EnhancedTableHead(props) {
         <TableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
+            area-checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{ 'aria-label': 'select all desserts' }}
           />
@@ -225,7 +226,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function EnhancedTable(props) {
+const EnhancedTable= (props) =>{
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -237,7 +238,8 @@ export default function EnhancedTable(props) {
   const [data1,setdata]=useState([]);
   const [q,setQ] = useState("");
 
-  
+  const select=selected;
+  console.log(select);
 
   const search = (rowss) =>{
 
@@ -340,12 +342,15 @@ export default function EnhancedTable(props) {
   };
 
   const handleSelectAllClick = (event) => {
+    
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = data1.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
+    
     setSelected([]);
+
   };
 
   const handleClick = (event, name) => {
@@ -396,9 +401,13 @@ export default function EnhancedTable(props) {
       <Paper className={classes.paper} >
         <EnhancedTableToolbar numSelected={selected.length} />
         
-        <div class="fl w-50">
+        <div class="fl w-80 ">
+        
+                             <button className="btn-primary" backgroundColor="#FFFFFF" onClick={()=>{props.numselect(select)}}> <Link class="btn btn-primary  ml-20"  to={`/user/selected/` }>View Selected</Link></button>
+                    
         <TextField  fullWidth className="ma-10 pa-4" id="outlined-search" label="Search Name"
            type="search" style={{ margin:18 }} variant="outlined" value={q} onChange={(e) => setQ(e.target.value)}   />
+           
            </div>
         
         <TableContainer className={classes.container} >
@@ -422,17 +431,16 @@ export default function EnhancedTable(props) {
               {stableSort(search(data1), getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-
                       key={row.id}
                       selected={isItemSelected}
                     >
@@ -486,3 +494,11 @@ export default function EnhancedTable(props) {
  
   );
 }
+
+const mapDispatchToProps =(dispatch)=>{
+  return{
+    numselect:(select)=>{dispatch({type:'CHANGE_DATA',payload:select})}
+  }
+}
+
+export default connect(null,mapDispatchToProps)(EnhancedTable);
